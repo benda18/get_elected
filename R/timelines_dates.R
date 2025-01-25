@@ -38,19 +38,32 @@ m_id      <- 0 # for iterating through member ids below
 
 for(i_p in cw_pos$pos_id){
   for(i_m in 1:cw_board$board_size[cw_board$board_id == cw_pos$board_id[cw_pos$pos_id == i_p]]){
-    #print(i_m)
+    
     m_id <- m_id + 1
     
     cw_member <- rbind(cw_member, 
-                       data.frame(pos_id = i_p, 
-                                  #member_id = paste("m0", i_m, sep = "", collapse = "")))
-                                  member_id = paste("m", m_id, sep = "", collapse = ""), 
-                                  member_name = NA, 
-                                  ))
+                       data.table(pos_id      = i_p, 
+                                  board_id    = cw_board$board_id[cw_board$board_id == cw_pos$board_id[cw_pos$pos_id == i_p]],
+                                  member_id   = paste("m", m_id, sep = "", collapse = ""), 
+                                  member_name = NA_character_, 
+                                  term_begin  = NA_Date_, 
+                                  term_end    = NA_Date_,
+                                  district_id = NA_character_))
   }
 }
 
-cw_member
+rm(i_m, i_p, m_id)
 
+cw_member
 cw_pos
 cw_board
+
+cw_districts <- cw_member %>%
+  group_by(board_id, district_id) %>%
+  summarise(district_name = NA_character_, 
+            n_pos = n_distinct(pos_id),
+            n_mem = n_distinct(member_id),
+            n = n())
+
+
+
