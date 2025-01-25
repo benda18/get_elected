@@ -96,6 +96,17 @@
       ],
       "Hash": "9df43854f1c84685d095ed6270b52387"
     },
+    "data.table": {
+      "Package": "data.table",
+      "Version": "1.16.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "38bbf05fc2503143db4c734a7e5cab66"
+    },
     "dplyr": {
       "Package": "dplyr",
       "Version": "1.1.4",
