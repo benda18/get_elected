@@ -48,22 +48,39 @@ for(i_p in cw_pos$pos_id){
                                   member_name = NA_character_, 
                                   term_begin  = NA_Date_, 
                                   term_end    = NA_Date_,
-                                  district_id = NA_character_))
+                                  district_id = NA_character_, 
+                                  district_name = NA_character_))
   }
 }
 
 rm(i_m, i_p, m_id)
 
-cw_member
-cw_pos
-cw_board
+
+# board membership details----
+
+cw_member[cw_member$board_id == "b01",]$member_name <- c("chavez", "umstead", "carda-auten", 
+                                                         "beyer", "tabb", "rogers", "goff")
+cw_member[cw_member$board_id == "b01",]$district_name <- c(paste("district", 1:4, 
+                                                               sep = " "),
+                                                         "consolidated A", "consolidated B",
+                                                         "at large")
+
+cw_member[cw_member$board_id == "b02",]$member_name <- c("williams", "middleton", "Baker",
+                                                         "caballero", "cook", "freeman", "rist")
+cw_member[cw_member$board_id == "b02",]$district_name <- c("mayor", "ward 2", "at large", 
+                                                         "at large", "ward 3", "ward 1", "at large")
+
+cw_member[cw_member$board_id == "b03",]$member_name <- c("allam", "lee", "burton", 
+                                                         "jacobs", "valentine")
+cw_member[cw_member$board_id == "b03",]$district_name <- "at large"
+
 
 cw_districts <- cw_member %>%
-  group_by(board_id, district_id) %>%
-  summarise(district_name = NA_character_, 
-            n_pos = n_distinct(pos_id),
-            n_mem = n_distinct(member_id),
-            n = n())
+  group_by(board_id, district_name) %>%
+  summarise(district_id = NA_character_) %>%
+  ungroup() %>%
+  mutate(., 
+         district_id = paste("d", 1:nrow(.), sep = "_"))
 
 
 
